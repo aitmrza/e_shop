@@ -1,9 +1,9 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 
 
 def home(request):
-    return HttpResponse("homepage")
+    return render(request, 'core/home.html')
 
 
 def test(request):
-    return HttpResponse("test page")
+    return HttpResponse('test page')

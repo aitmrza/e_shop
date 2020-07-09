@@ -1,5 +1,7 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
+from .models import Product
 
 
 def products(request):
-    return HttpResponse("<h1>Список товаров:</h1>")
+    products = Product.objects.filter(availability=True)
+    return render(request, 'product/products.html', {'products': products})
