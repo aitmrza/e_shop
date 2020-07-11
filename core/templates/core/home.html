@@ -1,7 +1,14 @@
-{% extends 'core/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %} Главная {% endblock %}
 
 {% block content %}
 <h1 class="display-4">Приветствуем наших посетителей!</h1>
+<hr>
+<p>Наш список товаров:</p>
+{% for product in products %}
+    <ul>
+        <a class="dropdown-item" href="{% url 'product' product.id %}">{{ product }}</a>
+    </ul>
+{% endfor %}
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Товар {% endblock %}
+
+{% block content %}
+    <p>
+        <a href="{% url 'home' %}"><button class="btn btn-outline-danger">Назад</button></a>
+        <a class="p-2 text-dark" href="{% url 'home' %}">Главная</a>/ {{ product.category }} / {{ product }}
+    </p>
+    <h1>{{ product }}</h1>
+    <div class="row">
+        {% if product.image %}
+            <div class="col-lg-5 col-md-6">
+                <img src="{{ product.image.url }}" width='100%'>
+            </div>
+        {% endif %}
+        <div class="col">
+            <h2>{{ product.price }} ₽</h2>
+            <button type="button" class="btn btn-primary btn-lg">Добавить в корзину</button>
+        </div>
+    </div>
+    
+    <br>
+    
+    <h1>Описание</h1>
+    <p>{{ product.description|linebreaks }}</p>
+    {% if product.bought > 0 %}
+        Купили {{ product.bought }} раз
+    {% endif %}
+{% endblock %}
