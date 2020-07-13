@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Product(models.Model):
-    name = models.CharField('Наименование', max_length=30)
+    name = models.CharField('Наименование', max_length=70)
     category = models.ForeignKey(
         to='Category',
         on_delete=models.SET_NULL,
@@ -14,10 +14,11 @@ class Product(models.Model):
         'Изображение',
         null=True,
         blank=True,
-        upload_to='product_images')
+        upload_to='product_images',
+        default="static/no_image.png")
     description = models.TextField('Описание', null=True, blank=True)
-    price = models.IntegerField('Цена', default=0)
-    bought = models.IntegerField('Куплено')
+    price = models.DecimalField('Цена', max_digits=11, decimal_places=0, default=0)
+    bought = models.IntegerField('Куплено', default=0)
     availability = models.BooleanField('В наличии', default=True)
 
     def __str__(self):

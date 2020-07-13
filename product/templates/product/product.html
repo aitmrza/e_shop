@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %} Товар {% endblock %}
+{% block title %} {{ product }} в интернет-магазине e-shop.ru {% endblock %}
 
 {% block content %}
     <p>
         <a href="{% url 'home' %}"><button class="btn btn-outline-danger">Назад</button></a>
         <a class="p-2 text-dark" href="{% url 'home' %}">Главная</a>/ {{ product.category }} / {{ product }}
     </p>
-    <h1>{{ product }}</h1>
+    <p><h1>{{ product }}</h1></p>
     <div class="row">
         {% if product.image %}
             <div class="col-lg-5 col-md-6">
@@ -27,4 +26,7 @@
     {% if product.bought > 0 %}
         Купили {{ product.bought }} раз
     {% endif %}
+    <a href="{% url 'product-edit' product.id %}" class="p-2 text-dark">
+        <p><button class='btn btn-outline-dark'>&#926 Редактировать товар</button></p>
+    </a>
 {% endblock %}
