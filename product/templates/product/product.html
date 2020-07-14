@@ -2,31 +2,40 @@
 {% block title %} {{ product }} в интернет-магазине e-shop.ru {% endblock %}
 
 {% block content %}
-    <p>
-        <a href="{% url 'home' %}"><button class="btn btn-outline-danger">Назад</button></a>
-        <a class="p-2 text-dark" href="{% url 'home' %}">Главная</a>/ {{ product.category }} / {{ product }}
-    </p>
-    <p><h1>{{ product }}</h1></p>
-    <div class="row">
-        {% if product.image %}
-            <div class="col-lg-5 col-md-6">
-                <img src="{{ product.image.url }}" width='100%'>
-            </div>
-        {% endif %}
-        <div class="col">
-            <h2>{{ product.price }} ₽</h2>
-            <button type="button" class="btn btn-primary btn-lg">Добавить в корзину</button>
-        </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="#">{{ product.category }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product }}</li>
+    </ol>
+</nav>
+{% include 'notification.html' %}
+<p>
+    <h1>{{ product }}</h1>
+</p>
+<div class="row">
+    {% if product.image %}
+    <div class="col-lg-5 col-md-6">
+        <img src="{{ product.image.url }}" width="100%" class="rounded-lg border-left-0">
     </div>
-    
-    <br>
-    
-    <h1>Описание</h1>
-    <p>{{ product.description|linebreaks }}</p>
-    {% if product.bought > 0 %}
-        Купили {{ product.bought }} раз
     {% endif %}
-    <a href="{% url 'product-edit' product.id %}" class="p-2 text-dark">
-        <p><button class='btn btn-outline-dark'>&#926 Редактировать товар</button></p>
-    </a>
+    <div class="col">
+        <h2>{{ product.price }} ₽</h2>
+        <button type="button" class="btn btn-primary btn-lg">Добавить в корзину</button>
+    </div>
+</div>
+
+<br>
+
+<h1>Описание</h1>
+<p>{{ product.description|linebreaks }}</p>
+{% if product.bought > 0 %}
+Купили {{ product.bought }} раз
+{% endif %}
+<a href="{% url 'product-edit' product.id %}">
+    <p><button class='btn btn-outline-dark'>&#926 Редактировать товар</button></p>
+</a>
+<a href="{% url 'product-delete' product.id %}">
+    <p><button class='btn btn-outline-danger'>&#926 Удалить</button></p>
+</a>
 {% endblock %}
