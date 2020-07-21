@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="ru">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -28,30 +28,74 @@
         </button>
       </form>
     </nav>
-    <nav class="my-2 my-md-0 mr-md-3 shadow-sm p-3 mb-5 bg-white rounded">
-      <a class="p-2 text-dark" href="#">
-        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart" fill="currentColor"
+    <a class="p-2 text-secondary nav-item nav-link disabled" href="#">
+      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart" fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+          d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+      </svg> Корзина
+    </a>
+    <a class="p-2 text-dark nav-item nav-link" href="{% url 'product-add' %}">
+      <button class='btn btn-outline-success'>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd"
-            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-        </svg> Корзина
-      </a>
-      <a class="p-2 text-dark" href="{% url 'product-add' %}">
-        <button class='btn btn-outline-success'>
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
-              d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z" />
-            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z" />
-          </svg> Добавить товар
-        </button>
-      </a>
-    </nav>
-    <a class="btn btn-outline-primary d-none d-lg-block" href="/admin">Администрирование сайта</a>
+            d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z" />
+          <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z" />
+        </svg> Добавить товар
+      </button>
+    </a>
+    {% if request.user.is_authenticated %}
+    <a class="p-2 text-danger nav-link" href="{% url 'logout' %}">Выйти</a>
+    {% else %}
+    <a class="p-2 nav-link" href="{% url 'login' %}">Авторизоваться</a>
+    <!-- <div class="btn-group">
+      <button type="button" class="btn p-2 text-primary nav-link d-none d-lg-block" data-toggle="dropdown" data-display="static" aria-haspopup="true"
+        aria-expanded="false">Авторизоваться
+      </button>
+
+      <div class="dropdown-menu">
+        <form class="px-4 py-3" method="POST">{% csrf_token %}
+          <div class="form-group">
+            <label for="exampleDropdownFormEmail1">Адрес электронной почты</label>
+            <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+          </div>
+          <div class="form-group">
+            <label for="exampleDropdownFormPassword1">Пароль</label>
+            <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="dropdownCheck">
+              <label class="form-check-label" for="dropdownCheck">
+                Запомнить меня
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" name="login">
+            Войти
+          </button>
+        </form>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="{% url 'registration' %}">Новый клиент? Зарегистрируйтесь</a>
+        <a class="dropdown-item" href="#">Забыли пароль?</a>
+      </div>
+    </div> -->
+    {% endif %}
+    <a class="p-2 text-secondary nav-link d-none d-lg-block" href="/admin">Администрирование сайта</a>
   </div>
   <div class="container-fluid">
     {% block content %}{% endblock %}
   </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+  </script>
 </body>
 
 </html>

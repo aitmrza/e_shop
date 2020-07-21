@@ -4,5 +4,3 @@ db.sqlite3
 e_shop/settings.py
 static/*
 media/*
-!media/static
-

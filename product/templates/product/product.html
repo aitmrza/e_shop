@@ -29,13 +29,18 @@
 
 <h1>Описание</h1>
 <p>{{ product.description|linebreaks }}</p>
+{% if not product.description %}
+<big>Нет описания</big>
+{% endif %}
 {% if product.bought > 0 %}
 Купили {{ product.bought }} раз
 {% endif %}
+{% if request.user.is_authenticated and product.user %}
 <a href="{% url 'product-edit' product.id %}">
     <p><button class='btn btn-outline-dark'>&#926 Редактировать товар</button></p>
 </a>
 <a href="{% url 'product-delete' product.id %}">
     <p><button class='btn btn-outline-danger'>&#926 Удалить</button></p>
 </a>
+{% endif %}
 {% endblock %}

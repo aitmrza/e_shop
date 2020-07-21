@@ -1,8 +1,16 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
 class Product(models.Model):
     name = models.CharField('Наименование товара', max_length=70)
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='product',
+        verbose_name='Товар')
     category = models.ForeignKey(
         to='Category',
         on_delete=models.SET_NULL,
