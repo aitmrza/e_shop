@@ -10,7 +10,7 @@ class Product(models.Model):
         null=True,
         blank=True,
         related_name='product',
-        verbose_name='Товар')
+        verbose_name='Продавец')
     category = models.ForeignKey(
         to='Category',
         on_delete=models.SET_NULL,

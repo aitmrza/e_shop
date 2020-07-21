@@ -1,11 +1,12 @@
-from django.db.models import Q
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
-from .forms import RegistrationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.db.models import Q
+from django.shortcuts import redirect, render
 
 from product.models import Product
+from .forms import RegistrationForm
 
 
 def home(request):
@@ -25,6 +26,7 @@ def home(request):
 
 
 def login(request):
+    """Авторизация пользователя"""
     if request.user.is_authenticated:
         return redirect(home)
     if 'login' in request.POST:
@@ -40,11 +42,13 @@ def login(request):
 
 
 def logout(request):
+    """Выход из личного кабинета"""
     auth.logout(request)
     return redirect(home)
 
 
 def registration(request):
+    """Форма регистрации"""
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -52,5 +56,19 @@ def registration(request):
             return redirect(home)
 
     context = {}
-    context["form"] = RegistrationForm()
-    return render(request, "core/registration.html", context)
+    context['form'] = RegistrationForm()
+    return render(request, 'core/registration.html', context)
+
+
+@login_required(login_url='login')
+def profile(request, pk):
+    """Личный кабинет персонального пользователя"""
+    context = {}
+    context['user'] = User.objects.get(id=pk)
+    context['products'] = Product.objects.filter(user=context['user'])
+    return render(request, 'core/profile.html', context)
+
+
+def sellers(request):
+    sellers = User.objects.exclude(product=None)
+    return render(request, "core/sellers.html", {"sellers": sellers})

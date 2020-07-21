@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-borderless table-striped table-hover">
+    <caption>Список продавцов</caption>
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Email</th>
+            <th scope="col">Username</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for seller in sellers %}
+        <tr>
+            <th scope="row">{{ seller.id }}</th>
+            <td>{{ seller.first_name }}</td>
+            <td>{{ seller.last_name }}</td>
+            <td>{{ seller.email }}</td>
+            <td><a href="{% url 'profile' seller.id %}">@{{ seller.username }}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

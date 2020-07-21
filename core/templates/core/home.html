@@ -6,19 +6,5 @@
 {% include 'notification.html' %}
 <h1 class="display-4 mx-auto" style="width: 60%">Приветствуем наших посетителей!</h1>
 <br>
-<div class="row text-center slideanim">
-    {% for product in products %}
-    <div class="col-sm-3">
-        <div class="d-flex justify-content-between">
-            <a class="text-dark" href="{% url 'product' product.id %}">
-                <img class="bd-placeholder-img rounded" src="{{ product.image.url }}" width="180" height="240">
-                <div>
-                    <h4 class="card-title">{{ product.price }} ₽</h4>
-                    <p class="card-text">{{ product.name|truncatechars:35 }}</p>
-                </div>
-            </a>
-        </div>
-    </div>
-    {% endfor %}
-</div>
+{% include 'includes/products_template.html' %}
 {% endblock %}

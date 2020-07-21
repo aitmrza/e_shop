@@ -35,7 +35,10 @@
 {% if product.bought > 0 %}
 Купили {{ product.bought }} раз
 {% endif %}
-{% if request.user.is_authenticated and product.user %}
+<p>
+    <a class="p-2 text-info" href="{% url 'profile' product.user.id %}">{{ product.user }}</a>
+</p>
+{% if request.user.is_authenticated and request.user == product.user %}
 <a href="{% url 'product-edit' product.id %}">
     <p><button class='btn btn-outline-dark'>&#926 Редактировать товар</button></p>
 </a>
