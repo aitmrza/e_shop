@@ -24,12 +24,12 @@
         <button type="button" class="btn btn-primary btn-lg">Добавить в корзину</button>
     </div>
 </div>
-
 <br>
 
+{% if product.description %}
 <h1>Описание</h1>
 <p>{{ product.description|linebreaks }}</p>
-{% if not product.description %}
+{% else %}
 <big>Нет описания</big>
 {% endif %}
 {% if product.bought > 0 %}
