@@ -32,6 +32,7 @@ class Product(models.Model):
         default=0)
     bought = models.IntegerField('Куплено', default=0)
     availability = models.BooleanField('В наличии', default=True)
+    display = models.BooleanField('Отображение', default=True)
 
     def __str__(self):
         return self.name
@@ -39,14 +40,3 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
-
-
-class Category(models.Model):
-    name = models.CharField('Название категории', max_length=40)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'категория'
-        verbose_name_plural = 'категории'
