@@ -10,6 +10,7 @@ def home(request):
         key = request.GET.get('key_word')
         products = Product.objects.filter(
             Q(availability=True),
+            Q(display=True),
             Q(name__icontains=key) |
             Q(category__name__icontains=key) |
             Q(description__icontains=key)
