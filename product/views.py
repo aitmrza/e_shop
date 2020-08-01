@@ -44,7 +44,7 @@ def product_edit(request, id):
             context['product_edit'] = 'Товар отредактирован.'
             return render(request, 'product/product.html', context)
 
-    context["form"] = ProductForm(instance=product)
+    context['form'] = ProductForm(instance=product)
     return render(request, 'product/form.html', context)
 
 
@@ -58,4 +58,14 @@ def product_delete(request, id):
     context['product'] = Product.objects.get(id=id).delete()
     context['products'] = Product.objects.filter(availability=True)
     context['product_delete'] = 'Товар удален.'
+    return render(request, 'core/home.html', context)
+
+
+def category(request, pk):
+    context = {}
+    context['products'] = Product.objects.filter(
+        category__id=pk,
+        availability=True,
+        display=True)
+    context['category_pk'] = pk
     return render(request, 'core/home.html', context)

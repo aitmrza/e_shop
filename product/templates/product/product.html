@@ -5,7 +5,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
-        <li class="breadcrumb-item"><a href="#">{{ product.category }}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'category' product.category.id %}">{{ product.category }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ product }}</li>
     </ol>
 </nav>

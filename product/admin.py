@@ -20,6 +20,3 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Category._meta.get_fields()[1:]]
     list_editable = ('name',)
     search_fields = ['name']
-
-
-admin.site.register(Order)
