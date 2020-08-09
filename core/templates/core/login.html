@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 {% load bootstrap4 %}
 
 {% block content %}
 <form method="POST">{% csrf_token %}
-    <h1 class="display-4 text-center">Вход в систему</h1>
+    <h1 class="display-4 text-center user-select-none">Вход в систему</h1>
     <div class="col-sm-3 my-3 mx-auto p-3 px-md-4 mb-3 bg-white rounded shadow">
         {% bootstrap_form form %}
         <div class="form-group">
@@ -13,6 +14,9 @@
                     Запомнить меня
                 </label>
             </div>
+            <a href="{% provider_login_url 'google' method='oauth2' %}">Google</a>
+            <a href="{% provider_login_url 'vk' %}">VK</a>
+            <a href="{% provider_login_url 'facebook' method='oauth2' %}">Facebook</a>
         </div>
         <button type="submit" class="btn btn-outline-primary btn-sm btn-block" name="login">
             Войти

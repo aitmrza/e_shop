@@ -14,9 +14,8 @@ class Product(models.Model):
     category = models.ForeignKey(
         to='Category',
         on_delete=models.SET_NULL,
-        related_name='product',
         null=True,
-        blank=True,
+        related_name='product',
         verbose_name='Категория товара')
     image = models.ImageField(
         'Изображение',

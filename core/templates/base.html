@@ -64,12 +64,10 @@
     <a class="p-2 nav-link" href="{% url 'login' %}">Авторизоваться</a>
     {% endif %}
   </div>
-  <div class="collapse col-md-3 border-right" id="navbarToggleExternalContent">
-    <nav class="nav flex-column">
-      {% for category in categories %}
-      <a class="text-secondary nav-link bg-white" href="{% url 'category' category.id %}">{{ category }}</a>
-      {% endfor %}
-    </nav>
+  <div class="collapse col-md-3 border-right font-weight-light" id="navbarToggleExternalContent">
+    {% for category in categories %}
+    <a class="text-secondary nav-link" href="{% url 'category' category.id %}">{{ category }}</a>
+    {% endfor %}
   </div>
   <div class="container-fluid">
     {% block content %}{% endblock %}
