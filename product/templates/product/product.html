@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
+{% load mptt_tags %}
+
 {% block title %} {{ product }} в интернет-магазине e-shop.ru {% endblock %}
 
 {% block content %}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'category' product.category.id %}">{{ product.category }}</a></li>
+        {% for category in category_path %}
+        <li class="breadcrumb-item"><a href="{% url 'category' category.pk %}">{{ category }}</a></li>
+        {% endfor %}
         <li class="breadcrumb-item active" aria-current="page">{{ product }}</li>
     </ol>
 </nav>
-{% include 'notification.html' %}
+{% include 'core/includes/messages.html' %}
 <p>
     <h1>{{ product }}</h1>
 </p>

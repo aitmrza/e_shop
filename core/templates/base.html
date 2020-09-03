@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
+{% load bootstrap4 %}
+{% load mptt_tags %}
 <html lang="en">
 
 <head>
@@ -9,20 +11,43 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
+  <link rel="stylesheet" href="{% static 'css/hamburger_menus.css' %}">
+  <script type="text/javascript">
+    // Prevent closing from click inside dropdown
+    $(document).on('click', '.dropdown-menu', function (e) {
+      e.stopPropagation();
+    });
+
+    // make it as accordion for smaller screens
+    if ($(window).width() < 992) {
+      $('.dropdown-menu a').click(function (e) {
+        e.preventDefault();
+        if ($(this).next('.submenu').length) {
+          $(this).next('.submenu').toggle();
+        }
+        $('.dropdown').on('hide.bs.dropdown', function () {
+          $(this).find('.submenu').hide();
+        })
+      });
+    }
+  </script>
 </head>
 
 <body>
+  <!-- Панель навигации -->
   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="font-weight-normal"><a class="p-2 text-dark" href="{% url 'home' %}">e-shop</a></h5>
-    <button class="my-0 mr-md-auto navbar-toggler" type="button" data-toggle="collapse"
-      data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list-nested" fill="currentColor"
-        xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd"
-          d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z" />
-      </svg>
-    </button>
+    <svg class="my-0 mr-md-auto navbar-toggler ham hamRotate ham1" data-toggle="collapse"
+      data-target="#navbarToggleExternalContent" viewBox="0 0 100 100" width="80"
+      onclick="this.classList.toggle('active')">
+      <path class="line top"
+        d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
+      <path class="line middle" d="m 30,50 h 40" />
+      <path class="line bottom"
+        d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
+    </svg>
+    <!-- Поиск -->
     <nav class="navbar navbar-light">
       <form class="form-inline" action="{% url 'home' %}">{% csrf_token %}
         <input class="form-control mr-sm-2" type="search" name="key_word" placeholder="Я ищу..." aria-label="Search">
@@ -64,14 +89,74 @@
     <a class="p-2 nav-link" href="{% url 'login' %}">Авторизоваться</a>
     {% endif %}
   </div>
-  <div class="collapse col-md-3 border-right font-weight-light" id="navbarToggleExternalContent">
-    {% for category in categories %}
-    <a class="text-secondary nav-link" href="{% url 'category' category.id %}">{{ category }}</a>
-    {% endfor %}
+
+  <!-- Рекурсивное дерево категорий -->
+  <div class="collapse col-md-2 border-right" id="navbarToggleExternalContent">
+    <ul class="navbar-nav">
+      {% recursetree category_tree %}
+      <li class="nav-item dropdown">
+        <a class="dropdown-item" href="{% url 'category' node.pk %}">{{ node.name }} {% if not node.is_leaf_node %}&raquo{% endif %}</a>
+        {% if not node.is_leaf_node %}
+        <ul class="dropdown-menu">
+          <li><a href="{% url 'category' node.pk %}">{{ children }}</a></li>
+        </ul>
+        {% endif %}
+      </li>
+      {% endrecursetree %}
+    </ul>
   </div>
+
   <div class="container-fluid">
     {% block content %}{% endblock %}
   </div>
+  <hr>
+  <footer class="container py-5">
+    <div class="row">
+      <div class="col-12 col-md">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-shop-window" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+            d="M3.12 1.175A.5.5 0 0 1 3.5 1h9a.5.5 0 0 1 .38.175l2.759 3.219A1.5 1.5 0 0 1 16 5.37v.13h-1v-.13a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.13H0v-.13a1.5 1.5 0 0 1 .361-.976l2.76-3.22z" />
+          <path
+            d="M2.375 6.875c.76 0 1.375-.616 1.375-1.375h1a1.375 1.375 0 0 0 2.75 0h1a1.375 1.375 0 0 0 2.75 0h1a1.375 1.375 0 1 0 2.75 0h1a2.375 2.375 0 0 1-4.25 1.458 2.371 2.371 0 0 1-1.875.917A2.37 2.37 0 0 1 8 6.958a2.37 2.37 0 0 1-1.875.917 2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.5h1c0 .76.616 1.375 1.375 1.375z" />
+          <path
+            d="M4.75 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm3.75 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm3.75 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM2 8.854V15h12V8.854a3.354 3.354 0 0 0 1-.27V15h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V8.583c.311.14.647.232 1 .271zm0-1.008V7H1v.437c.291.207.632.35 1 .409zm13-.409c-.291.207-.632.35-1 .409V7h1v.437z" />
+          <path d="M4 13V9H3v4a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V9h-1v4H4z" />
+        </svg>
+        <small class="d-block mb-3 text-muted user-select-none">e-shop © 2020</small>
+      </div>
+      <div class="col-6">
+        <ul class="list-unstyled text-small">
+          <li class="text-muted"><a class="text-body" href="{%  url 'feedback' %}" data-toggle="modal"
+              data-target="#exampleModal">Оставить отзыв</a><br>
+            Помогите нам улучшить интернет-магазин.
+          </li>
+        </ul>
+      </div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Помогите нам улучшить интернет-магазин.</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{% url 'feedback' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+              <div class="modal-body">
+                {% bootstrap_form feedback_form %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
   </script>

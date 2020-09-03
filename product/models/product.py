@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from mptt.models import TreeForeignKey
 
 
 class Product(models.Model):
@@ -11,7 +12,7 @@ class Product(models.Model):
         blank=True,
         related_name='product',
         verbose_name='Продавец')
-    category = models.ForeignKey(
+    category = TreeForeignKey(
         to='Category',
         on_delete=models.SET_NULL,
         null=True,
